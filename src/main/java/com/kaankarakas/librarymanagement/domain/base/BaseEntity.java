@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.domain;
+package com.kaankarakas.librarymanagement.domain.base;
 
 import com.kaankarakas.librarymanagement.enums.Status;
 import jakarta.persistence.*;
