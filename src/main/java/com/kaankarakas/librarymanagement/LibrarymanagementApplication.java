@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.main;
+package com.kaankarakas.librarymanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
