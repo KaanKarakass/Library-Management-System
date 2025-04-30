@@ -35,7 +35,7 @@ public class Book extends BaseEntity {
 
     @Size(max = CODE_MAX_LENGTH)
     @NotNull
-    private String ISBN;
+    private String isbn;
 
     @NotNull
     private LocalDate publicationDate;
