@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum BookServiceValidationRule{
 
     ERR_BOOK_ALREADY_EXISTS("A book with this ISBN already exists"),
-    ERR_PUBLICATION_DATE_FUTURE("Publication date cannot be in the future.")
+    ERR_PUBLICATION_DATE_FUTURE("Publication date cannot be in the future."),
+    ERR_BOOK_NOT_FOUND("Book not found with the given ID")
 
     /*end of enum*/;
 
