@@ -10,6 +10,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookMapper {
+    @Mapping(source = "status", target = "status")
     BookDTO toDTO(Book book);
 
     @Mapping(target = "id", ignore = true)

@@ -24,8 +24,8 @@ public class CreateBookRequest {
 
     @NotNull
     @Size(max = CODE_MAX_LENGTH)
-    @Schema(description = "ISBN of the book", example = "9780743273565", maxLength = 20)
-    private String ISBN;
+    @Schema(description = "ISBN of the book", example = "9784507", maxLength = 20)
+    private String isbn;
 
     @NotNull
     @Schema(description = "Publication date of the book", example = "1925-04-10")

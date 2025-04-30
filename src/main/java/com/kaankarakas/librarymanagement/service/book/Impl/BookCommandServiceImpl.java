@@ -35,8 +35,8 @@ public class BookCommandServiceImpl implements BookCommandService {
 
         Book book = checkBookId(updateBookRequest.getBookId());
 
-        if (updateBookRequest.getISBN() != null && !Objects.equals(book.getIsbn(), updateBookRequest.getISBN())) {
-            checkIsbn(updateBookRequest.getISBN());
+        if (updateBookRequest.getIsbn() != null && !Objects.equals(book.getIsbn(), updateBookRequest.getIsbn())) {
+            checkIsbn(updateBookRequest.getIsbn());
         }
 
         bookMapper.updateBookFromDto(updateBookRequest, book);
@@ -56,13 +56,13 @@ public class BookCommandServiceImpl implements BookCommandService {
     }
 
     private Book checkAndPrepareAddBook(CreateBookRequest createBookRequest) {
-        checkIsbn(createBookRequest.getISBN());
+        checkIsbn(createBookRequest.getIsbn());
         checkPublicationDate(createBookRequest.getPublicationDate());
 
         Book book = new Book();
         book.setTitle(createBookRequest.getTitle());
         book.setAuthor(createBookRequest.getAuthor());
-        book.setIsbn(createBookRequest.getISBN());
+        book.setIsbn(createBookRequest.getIsbn());
         book.setPublicationDate(createBookRequest.getPublicationDate());
         book.setGenre(createBookRequest.getGenre());
         return book;
@@ -72,7 +72,7 @@ public class BookCommandServiceImpl implements BookCommandService {
                 .orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
     }
     private void checkIsbn(String ISBN) {
-        if (bookRepository.existsByIsbn(ISBN)) {
+        if (bookRepository.existsByIsbnAndStatusNot(ISBN, Status.DELETED)) {
             throw new LibraryException(ERR_BOOK_ALREADY_EXISTS.getDescription(), HttpStatus.BAD_REQUEST);
         }
     }

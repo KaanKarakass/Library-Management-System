@@ -5,6 +5,7 @@ import static com.kaankarakas.librarymanagement.constants.LibraryManagementDefin
 import com.kaankarakas.librarymanagement.api.constants.SchemaConstants;
 import com.kaankarakas.librarymanagement.domain.base.BaseEntity;
 import com.kaankarakas.librarymanagement.enums.Genre;
+import com.kaankarakas.librarymanagement.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

@@ -1,14 +1,17 @@
 package com.kaankarakas.librarymanagement.specification;
 
 import com.kaankarakas.librarymanagement.domain.book.Book;
+import com.kaankarakas.librarymanagement.enums.Genre;
+import com.kaankarakas.librarymanagement.enums.Status;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSearchSpecification {
 
     private static final String TITLE = "title";
     private static final String AUTHOR = "author";
-    private static final String ISBN = "ISBN";
+    private static final String ISBN = "isbn";
     private static final String GENRE = "genre";
+    private static final String STATUS = "status";
 
     public static Specification<Book> specificationTitle(String title) {
         return (root, query, criteriaBuilder) ->
@@ -25,8 +28,13 @@ public class BookSearchSpecification {
                 isbn != null ? criteriaBuilder.equal(root.get(ISBN), isbn) : null;
     }
 
-    public static Specification<Book> specificationGenre(String genre) {
+    public static Specification<Book> specificationGenre(Genre genre) {
         return (root, query, criteriaBuilder) ->
                 genre != null ? criteriaBuilder.equal(root.get(GENRE), genre) : null;
+    }
+
+    public static Specification<Book> specificationStatus(Status status) {
+        return (root, query, criteriaBuilder) ->
+                status != null ? criteriaBuilder.notEqual(root.get(STATUS), status) : null;
     }
 }

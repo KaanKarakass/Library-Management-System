@@ -28,7 +28,7 @@ public class UpdateBookRequest {
 
     @Size(max = CODE_MAX_LENGTH)
     @Schema(description = "ISBN code", example = "9780141182636")
-    private String ISBN;
+    private String isbn;
 
     @Schema(description = "Publication date", example = "1925-04-10")
     private LocalDate publicationDate;

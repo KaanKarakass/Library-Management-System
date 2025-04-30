@@ -1,6 +1,9 @@
 package com.kaankarakas.librarymanagement.dto.response.book;
 
+import com.kaankarakas.librarymanagement.enums.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 @Data
@@ -19,4 +22,7 @@ public class BookDTO {
 
     @Schema(description = "Genre of the book", example = "FICTION")
     private String genre;
+
+    @Schema(description = "Status of the book", example = "ACTIVE")
+    private String status;
 }

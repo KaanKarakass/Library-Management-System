@@ -4,6 +4,8 @@ import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
+import com.kaankarakas.librarymanagement.enums.Genre;
+import com.kaankarakas.librarymanagement.enums.Status;
 import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.BookQueryService;
@@ -35,9 +37,10 @@ public class BookQueryServiceImpl implements BookQueryService {
     public BookPageResponseDTO searchBooks(SearchBookRequest searchBookRequest) {
         Specification<Book> bookSpecification =
                 Specification.where(BookSearchSpecification.specificationTitle(searchBookRequest.getTitle()))
-                .and(BookSearchSpecification.specificationAuthor(searchBookRequest.getAuthor()))
-                .and(BookSearchSpecification.specificationGenre(String.valueOf(searchBookRequest.getGenre())))
-                .and(BookSearchSpecification.specificationIsbn(searchBookRequest.getIsbn()));
+                        .and(BookSearchSpecification.specificationAuthor(searchBookRequest.getAuthor()))
+                        .and(BookSearchSpecification.specificationGenre(searchBookRequest.getGenre() != null ? Genre.valueOf(searchBookRequest.getGenre()) : null))
+                        .and(BookSearchSpecification.specificationIsbn(searchBookRequest.getIsbn()))
+                        .and(BookSearchSpecification.specificationStatus(Status.DELETED));
 
         Pageable pageable = PageRequest.of(searchBookRequest.getPage(), searchBookRequest.getSize());
 

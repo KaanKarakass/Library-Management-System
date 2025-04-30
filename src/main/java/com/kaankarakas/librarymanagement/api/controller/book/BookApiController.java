@@ -84,7 +84,7 @@ public class BookApiController {
         return bookMapper.toDTO(bookCommandService.updateBook(request));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", consumes = {MediaType.ALL_VALUE})
     @Operation(summary = "Soft delete a book")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book successfully deleted",

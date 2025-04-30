@@ -17,8 +17,8 @@ public class SearchBookRequest {
     @Schema(description = "ISBN number of the book", example = "978-0134685991")
     private String isbn;
 
-    @Schema(description = "Genre of the book", example = "Programming")
-    private Genre genre;
+    @Schema(description = "Genre of the book", example = "FICTION")
+    private String genre;
 
     @Schema(description = "Start of the publication date range", example = "2001-01-01")
     private LocalDate fromPublicationDate;
