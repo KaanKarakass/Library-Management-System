@@ -1,5 +1,6 @@
 package com.kaankarakas.librarymanagement.service.book.Impl;
 
+import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.api.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.BookPageResponseDTO;
@@ -7,15 +8,14 @@ import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.BookQueryService;
 import com.kaankarakas.librarymanagement.specification.BookSearchSpecification;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 import static com.kaankarakas.librarymanagement.validator.book.BookServiceValidationRule.ERR_BOOK_NOT_FOUND;
 
@@ -28,7 +28,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 
     @Override
     public Book findBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ERR_BOOK_NOT_FOUND.getDescription()));
+        return bookRepository.findById(id).orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
     }
 
     @Override

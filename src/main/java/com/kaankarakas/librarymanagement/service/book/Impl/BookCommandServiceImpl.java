@@ -1,5 +1,6 @@
 package com.kaankarakas.librarymanagement.service.book.Impl;
 
+import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.api.request.book.CreateBookRequest;
 import com.kaankarakas.librarymanagement.api.request.book.UpdateBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
@@ -7,8 +8,9 @@ import com.kaankarakas.librarymanagement.enums.Status;
 import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.BookCommandService;
-import jakarta.persistence.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,7 +49,7 @@ public class BookCommandServiceImpl implements BookCommandService {
         Book book = checkBookId(bookId);
 
         if (Status.DELETED.equals(book.getStatus())) {
-            throw new IllegalArgumentException(ERR_BOOK_ALREADY_DELETED.getDescription());
+            throw new LibraryException(ERR_BOOK_ALREADY_DELETED.getDescription(), HttpStatus.BAD_REQUEST);
         }
         book.setStatus(Status.DELETED);
         return bookRepository.save(book);
@@ -67,16 +69,16 @@ public class BookCommandServiceImpl implements BookCommandService {
     }
     private Book checkBookId(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ERR_BOOK_NOT_FOUND.getDescription()));
+                .orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
     }
     private void checkIsbn(String ISBN) {
         if (bookRepository.existsByIsbn(ISBN)) {
-            throw new IllegalArgumentException(ERR_BOOK_ALREADY_EXISTS.getDescription());
+            throw new LibraryException(ERR_BOOK_ALREADY_EXISTS.getDescription(), HttpStatus.BAD_REQUEST);
         }
     }
     private void checkPublicationDate(LocalDate publicationDate) {
         if (publicationDate.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException(ERR_PUBLICATION_DATE_FUTURE.getDescription());
+            throw new LibraryException(ERR_PUBLICATION_DATE_FUTURE.getDescription(), HttpStatus.BAD_REQUEST);
         }
     }
 }
