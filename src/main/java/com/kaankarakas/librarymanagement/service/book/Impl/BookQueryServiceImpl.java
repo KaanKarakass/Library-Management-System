@@ -27,7 +27,7 @@ public class BookQueryServiceImpl implements BookQueryService {
     private final BookMapper bookMapper;
 
     @Override
-    public Book findBookById(UUID id) {
+    public Book findBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ERR_BOOK_NOT_FOUND.getDescription()));
     }
 

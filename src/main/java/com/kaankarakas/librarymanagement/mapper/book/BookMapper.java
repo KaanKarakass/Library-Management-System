@@ -1,10 +1,17 @@
 package com.kaankarakas.librarymanagement.mapper.book;
 
+import com.kaankarakas.librarymanagement.api.request.book.UpdateBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.BookDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookMapper {
     BookDTO toDTO(Book book);
+
+    @Mapping(target = "id", ignore = true)
+    void updateBookFromDto(UpdateBookRequest updateBookRequest, @MappingTarget Book book);
 }

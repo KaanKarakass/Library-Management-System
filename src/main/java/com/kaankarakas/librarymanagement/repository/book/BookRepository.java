@@ -11,5 +11,4 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     boolean existsByIsbn(String isbn);
-    Optional<Book> findById(UUID id);
 }

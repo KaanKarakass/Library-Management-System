@@ -14,7 +14,7 @@ import java.util.UUID;
 @Validated
 public interface BookQueryService {
 
-    public Book findBookById(UUID id);
+    public Book findBookById(Long id);
 
     public BookPageResponseDTO searchBooks(@NotNull @Valid SearchBookRequest searchBookRequest);
 }
