@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.dto;
+package com.kaankarakas.librarymanagement.dto.response.book;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

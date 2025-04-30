@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.api.request.book;
+package com.kaankarakas.librarymanagement.dto.request.book;
 
 import com.kaankarakas.librarymanagement.enums.Genre;
 import io.swagger.v3.oas.annotations.media.Schema;

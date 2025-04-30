@@ -1,8 +1,8 @@
 package com.kaankarakas.librarymanagement.service.book.Impl;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
-import com.kaankarakas.librarymanagement.api.request.book.CreateBookRequest;
-import com.kaankarakas.librarymanagement.api.request.book.UpdateBookRequest;
+import com.kaankarakas.librarymanagement.dto.request.book.CreateBookRequest;
+import com.kaankarakas.librarymanagement.dto.request.book.UpdateBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.enums.Status;
 import com.kaankarakas.librarymanagement.mapper.book.BookMapper;

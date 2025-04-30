@@ -1,10 +1,7 @@
-package com.kaankarakas.librarymanagement.dto;
+package com.kaankarakas.librarymanagement.dto.response.book;
 
-import com.kaankarakas.librarymanagement.enums.Genre;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 @Data
 public class BookDTO {

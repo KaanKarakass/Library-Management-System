@@ -1,8 +1,8 @@
 package com.kaankarakas.librarymanagement.mapper.book;
 
-import com.kaankarakas.librarymanagement.api.request.book.UpdateBookRequest;
+import com.kaankarakas.librarymanagement.dto.request.book.UpdateBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
-import com.kaankarakas.librarymanagement.dto.BookDTO;
+import com.kaankarakas.librarymanagement.dto.response.book.BookDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

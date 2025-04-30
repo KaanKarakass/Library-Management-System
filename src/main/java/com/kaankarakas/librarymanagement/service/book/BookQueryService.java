@@ -1,15 +1,11 @@
 package com.kaankarakas.librarymanagement.service.book;
 
-import com.kaankarakas.librarymanagement.api.request.book.SearchBookRequest;
+import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
-import com.kaankarakas.librarymanagement.dto.BookDTO;
-import com.kaankarakas.librarymanagement.dto.BookPageResponseDTO;
+import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.query.Page;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.UUID;
 
 @Validated
 public interface BookQueryService {

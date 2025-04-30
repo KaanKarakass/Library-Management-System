@@ -1,9 +1,9 @@
 package com.kaankarakas.librarymanagement.service.book.Impl;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
-import com.kaankarakas.librarymanagement.api.request.book.SearchBookRequest;
+import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
-import com.kaankarakas.librarymanagement.dto.BookPageResponseDTO;
+import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
 import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.BookQueryService;
