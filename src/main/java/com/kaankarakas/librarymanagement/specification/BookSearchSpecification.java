@@ -2,7 +2,6 @@ package com.kaankarakas.librarymanagement.specification;
 
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.enums.Genre;
-import com.kaankarakas.librarymanagement.enums.Status;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSearchSpecification {
@@ -31,10 +30,5 @@ public class BookSearchSpecification {
     public static Specification<Book> specificationGenre(Genre genre) {
         return (root, query, criteriaBuilder) ->
                 genre != null ? criteriaBuilder.equal(root.get(GENRE), genre) : null;
-    }
-
-    public static Specification<Book> specificationStatus(Status status) {
-        return (root, query, criteriaBuilder) ->
-                status != null ? criteriaBuilder.notEqual(root.get(STATUS), status) : null;
     }
 }

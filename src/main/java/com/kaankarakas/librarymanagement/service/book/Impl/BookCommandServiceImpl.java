@@ -4,7 +4,7 @@ import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.dto.request.book.CreateBookRequest;
 import com.kaankarakas.librarymanagement.dto.request.book.UpdateBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
-import com.kaankarakas.librarymanagement.enums.Status;
+import com.kaankarakas.librarymanagement.enums.BookStatus;
 import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.BookCommandService;
@@ -48,10 +48,10 @@ public class BookCommandServiceImpl implements BookCommandService {
     public Book deleteBook(Long bookId) {
         Book book = checkBookId(bookId);
 
-        if (Status.DELETED.equals(book.getStatus())) {
+        if (BookStatus.DELETED.equals(book.getBookStatus())) {
             throw new LibraryException(ERR_BOOK_ALREADY_DELETED.getDescription(), HttpStatus.BAD_REQUEST);
         }
-        book.setStatus(Status.DELETED);
+        book.setBookStatus(BookStatus.DELETED);
         return bookRepository.save(book);
     }
 
@@ -72,7 +72,7 @@ public class BookCommandServiceImpl implements BookCommandService {
                 .orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
     }
     private void checkIsbn(String ISBN) {
-        if (bookRepository.existsByIsbnAndStatusNot(ISBN, Status.DELETED)) {
+        if (bookRepository.existsByIsbn(ISBN)) {
             throw new LibraryException(ERR_BOOK_ALREADY_EXISTS.getDescription(), HttpStatus.BAD_REQUEST);
         }
     }

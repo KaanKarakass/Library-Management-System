@@ -1,11 +1,11 @@
 package com.kaankarakas.librarymanagement.enums;
 
-public enum Status {
+public enum BookStatus {
     ACTIVE,
-    INACTIVE,
+    BORROWED,
     DELETED;
 
-    public static Status getDefaultStatus() {
+    public static BookStatus getDefaultBookStatus() {
         return ACTIVE;
     }
 }

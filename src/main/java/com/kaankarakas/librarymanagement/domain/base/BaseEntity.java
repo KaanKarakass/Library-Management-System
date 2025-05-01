@@ -1,6 +1,6 @@
 package com.kaankarakas.librarymanagement.domain.base;
 
-import com.kaankarakas.librarymanagement.enums.Status;
+import com.kaankarakas.librarymanagement.enums.BookStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,9 +18,6 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.getDefaultStatus();
 
     @CreatedDate
     @Column(updatable = false)

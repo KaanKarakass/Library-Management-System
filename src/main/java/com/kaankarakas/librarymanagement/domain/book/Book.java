@@ -4,8 +4,8 @@ import static com.kaankarakas.librarymanagement.constants.LibraryManagementDefin
 
 import com.kaankarakas.librarymanagement.api.constants.SchemaConstants;
 import com.kaankarakas.librarymanagement.domain.base.BaseEntity;
+import com.kaankarakas.librarymanagement.enums.BookStatus;
 import com.kaankarakas.librarymanagement.enums.Genre;
-import com.kaankarakas.librarymanagement.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @Table(schema = SchemaConstants.LIBRARY_MANAGEMENT_SCHEMA,
         indexes = {
                 @Index(columnList = "title"), @Index(columnList = "author"), @Index(columnList = "genre")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = "ISBN")})
+        uniqueConstraints = {@UniqueConstraint(columnNames = "isbn")})
 public class Book extends BaseEntity {
 
     @Size(max = NAME_MAX_LENGTH)
@@ -44,4 +44,8 @@ public class Book extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private BookStatus bookStatus;
 }

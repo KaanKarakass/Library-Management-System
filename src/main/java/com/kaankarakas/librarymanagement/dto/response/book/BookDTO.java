@@ -1,9 +1,6 @@
 package com.kaankarakas.librarymanagement.dto.response.book;
 
-import com.kaankarakas.librarymanagement.enums.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 @Data

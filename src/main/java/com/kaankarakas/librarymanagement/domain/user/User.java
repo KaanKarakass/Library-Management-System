@@ -2,8 +2,9 @@ package com.kaankarakas.librarymanagement.domain.user;
 
 import com.kaankarakas.librarymanagement.api.constants.SchemaConstants;
 import com.kaankarakas.librarymanagement.domain.base.BaseEntity;
-import com.kaankarakas.librarymanagement.enums.Status;
+import com.kaankarakas.librarymanagement.enums.BookStatus;
 import com.kaankarakas.librarymanagement.enums.UserRole;
+import com.kaankarakas.librarymanagement.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -47,6 +48,10 @@ public class User extends BaseEntity implements UserDetails {
     @NotNull
     private UserRole role;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UserStatus userStatus = UserStatus.getDefaultUserStatus();
+
     // Implementations for UserDetails methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,10 +81,5 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return getStatus() == Status.ACTIVE;
     }
 }
