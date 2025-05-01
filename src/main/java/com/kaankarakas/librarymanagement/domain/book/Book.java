@@ -22,8 +22,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(schema = SchemaConstants.LIBRARY_MANAGEMENT_SCHEMA,
         indexes = {
-                @Index(columnList = "title"), @Index(columnList = "author"), @Index(columnList = "genre")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = "isbn")})
+                @Index(columnList = "title"), @Index(columnList = "author"), @Index(columnList = "genre")})
 public class Book extends BaseEntity {
 
     @Size(max = NAME_MAX_LENGTH)

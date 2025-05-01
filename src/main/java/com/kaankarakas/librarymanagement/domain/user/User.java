@@ -22,9 +22,11 @@ import static com.kaankarakas.librarymanagement.constants.LibraryManagementDefin
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(schema = SchemaConstants.LIBRARY_MANAGEMENT_SCHEMA, uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(schema = SchemaConstants.LIBRARY_MANAGEMENT_SCHEMA, uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "username")})
 public class User extends BaseEntity implements UserDetails {
 
     @Size(max = NAME_MAX_LENGTH)
@@ -40,7 +42,6 @@ public class User extends BaseEntity implements UserDetails {
     @Email
     private String email;
 
-    @Size(max = CODE_MAX_LENGTH)
     @NotNull
     private String password;
 
@@ -81,5 +82,10 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.userStatus == UserStatus.ACTIVE;
     }
 }

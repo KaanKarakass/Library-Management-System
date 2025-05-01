@@ -3,6 +3,7 @@ package com.kaankarakas.librarymanagement.service.book.Impl;
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.domain.book.Book;
+import com.kaankarakas.librarymanagement.dto.response.book.BookDTO;
 import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
 import com.kaankarakas.librarymanagement.enums.Genre;
 import com.kaankarakas.librarymanagement.enums.BookStatus;
@@ -29,8 +30,9 @@ public class BookQueryServiceImpl implements BookQueryService {
     private final BookMapper bookMapper;
 
     @Override
-    public Book findBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
+    public BookDTO findBookById(Long id) {
+        return bookMapper.toDTO(
+                bookRepository.findById(id).orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND)));
     }
 
     @Override
@@ -38,8 +40,10 @@ public class BookQueryServiceImpl implements BookQueryService {
         Specification<Book> bookSpecification =
                 Specification.where(BookSearchSpecification.specificationTitle(searchBookRequest.getTitle()))
                         .and(BookSearchSpecification.specificationAuthor(searchBookRequest.getAuthor()))
-                        .and(BookSearchSpecification.specificationGenre(searchBookRequest.getGenre() != null ? Genre.valueOf(searchBookRequest.getGenre()) : null))
-                        .and(BookSearchSpecification.specificationIsbn(searchBookRequest.getIsbn()));
+                        .and(BookSearchSpecification.specificationGenre(searchBookRequest.getGenre() != null
+                                ? Genre.valueOf(searchBookRequest.getGenre()) : null))
+                        .and(BookSearchSpecification.specificationIsbn(searchBookRequest.getIsbn()))
+                        .and(BookSearchSpecification.specificationStatus(BookStatus.DELETED));
 
         Pageable pageable = PageRequest.of(searchBookRequest.getPage(), searchBookRequest.getSize());
 

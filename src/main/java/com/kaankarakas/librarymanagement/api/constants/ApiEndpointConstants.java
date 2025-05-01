@@ -6,5 +6,6 @@ public final class ApiEndpointConstants {
     public static final String RESPONSE_CONTENT_TYPE = MediaType.APPLICATION_JSON_VALUE + ";charset-UTF-8";
     public static final String API_BASE_URL = "/api";
     public static final String BOOK_API = API_BASE_URL + "/books";
+    public static final String USER_API = API_BASE_URL + "/users";
 
 }

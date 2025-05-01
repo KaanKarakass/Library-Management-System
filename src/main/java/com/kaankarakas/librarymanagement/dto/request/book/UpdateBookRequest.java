@@ -14,10 +14,6 @@ import static com.kaankarakas.librarymanagement.constants.LibraryManagementDefin
 @Schema(description = "Request object for updating a book")
 public class UpdateBookRequest {
 
-    @NotNull
-    @Schema(description = "Unique identifier of the book", example = "1")
-    private Long bookId;
-
     @Size(max = NAME_MAX_LENGTH)
     @Schema(description = "Book title", example = "The Great Gatsby")
     private String title;
