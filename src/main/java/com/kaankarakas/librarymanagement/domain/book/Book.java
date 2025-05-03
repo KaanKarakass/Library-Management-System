@@ -46,5 +46,5 @@ public class Book extends BaseEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private BookStatus bookStatus;
+    private BookStatus bookStatus = BookStatus.getDefaultBookStatus();
 }

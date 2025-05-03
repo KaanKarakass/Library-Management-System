@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Book Controller", description = "Book management operations")
@@ -28,6 +29,7 @@ public class BookApiController {
     private final BookCommandService bookCommandService;
     private final BookQueryService bookQueryService;
 
+    @PreAuthorize("hasAnyRole('LIBRARIAN')")
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add book", description = "Add a new book to the library")
@@ -36,6 +38,7 @@ public class BookApiController {
         return bookCommandService.addBook(request);
     }
 
+    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
     @GetMapping(value = "/{id}", consumes = {MediaType.ALL_VALUE})
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get book details by ID")
@@ -44,6 +47,7 @@ public class BookApiController {
         return bookQueryService.findBookById(id);
     }
 
+    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
     @GetMapping(value = "/search", consumes = {MediaType.ALL_VALUE})
     @Operation(summary = "Search books with filters and pagination")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Books retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookPageResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Invalid request parameters\"}"))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error\"}")))})
@@ -51,6 +55,7 @@ public class BookApiController {
         return bookQueryService.searchBooks(request);
     }
 
+    @PreAuthorize("hasAnyRole('LIBRARIAN')")
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update an existing book")
@@ -59,6 +64,7 @@ public class BookApiController {
         return bookCommandService.updateBook(id, request);
     }
 
+    @PreAuthorize("hasAnyRole('LIBRARIAN')")
     @DeleteMapping(value = "delete/{id}", consumes = {MediaType.ALL_VALUE})
     @Operation(summary = "Soft delete a book")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Book successfully deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class))), @ApiResponse(responseCode = "404", description = "Book not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book not found\"}"))), @ApiResponse(responseCode = "400", description = "Book already deleted", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book already deleted\"}")))})

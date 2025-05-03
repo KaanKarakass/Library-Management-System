@@ -21,5 +21,5 @@ public class BookDTO {
     private String genre;
 
     @Schema(description = "Status of the book", example = "ACTIVE")
-    private String status;
+    private String bookStatus;
 }

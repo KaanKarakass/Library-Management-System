@@ -33,7 +33,7 @@ public class BookCommandServiceImpl implements BookCommandService {
     }
 
     @Override
-    public BookDTO updateBook(@NotNull Long id, UpdateBookRequest updateBookRequest) {
+    public BookDTO updateBook(Long id, UpdateBookRequest updateBookRequest) {
 
         Book book = checkBookId(id);
 
