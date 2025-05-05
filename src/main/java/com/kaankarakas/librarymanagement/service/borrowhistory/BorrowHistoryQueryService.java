@@ -5,7 +5,7 @@ import com.kaankarakas.librarymanagement.dto.response.borrowhistory.BorrowHistor
 import java.util.List;
 
 public interface BorrowHistoryQueryService {
-    List<BorrowHistoryDTO> getUserHistory(Long userId);
+    List<BorrowHistoryDTO> getUserHistory();
 
     List<BorrowHistoryDTO> getAllHistories();
 

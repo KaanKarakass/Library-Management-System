@@ -29,11 +29,11 @@ public class BorrowHistoryApiController {
     private final BorrowHistoryQueryService queryService;
 
     @PreAuthorize("hasRole('PATRON')")
-    @PostMapping("/{userId}/borrow")
+    @PostMapping("/borrow")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Borrow a book", description = "Allows a user to borrow a book if available and eligible", responses = {@ApiResponse(responseCode = "201", description = "Book successfully borrowed", content = @Content(schema = @Schema(implementation = BorrowHistoryDTO.class))), @ApiResponse(responseCode = "400", description = "Book is not available"), @ApiResponse(responseCode = "406", description = "User not eligible")})
-    public BorrowHistoryDTO borrowBook(@PathVariable Long userId, @RequestBody BorrowRequestDTO request) {
-        return commandService.borrowBook(userId, request);
+    public BorrowHistoryDTO borrowBook(@RequestBody BorrowRequestDTO request) {
+        return commandService.borrowBook(request);
     }
 
     @PreAuthorize("hasRole('PATRON')")
@@ -45,15 +45,15 @@ public class BorrowHistoryApiController {
     }
 
     @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    @GetMapping("/user/{userId}")
+    @GetMapping(value = "/user", consumes = {MediaType.ALL_VALUE})
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get borrowing history for a user", description = "Returns the complete borrowing history for the given user ID", responses = {@ApiResponse(responseCode = "200", description = "Borrow history retrieved", content = @Content(schema = @Schema(implementation = BorrowHistoryDTO.class)))})
-    public List<BorrowHistoryDTO> getUserBorrowHistory(@PathVariable Long userId) {
-        return queryService.getUserHistory(userId);
+    public List<BorrowHistoryDTO> getUserBorrowHistory() {
+        return queryService.getUserHistory();
     }
 
     @PreAuthorize("hasRole('LIBRARIAN')")
-    @GetMapping
+    @GetMapping(consumes = {MediaType.ALL_VALUE})
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all borrowing history", description = "Returns borrowing history for all users (for librarians)", responses = {@ApiResponse(responseCode = "200", description = "Borrow history retrieved", content = @Content(schema = @Schema(implementation = BorrowHistoryDTO.class)))})
     public List<BorrowHistoryDTO> getAllBorrowHistory() {
@@ -61,7 +61,7 @@ public class BorrowHistoryApiController {
     }
 
     @PreAuthorize("hasRole('LIBRARIAN')")
-    @GetMapping("/report/overdue")
+    @GetMapping(value = "/report/overdue", consumes = {MediaType.ALL_VALUE}, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Generate overdue books report", description = "Generates a report of all books that are overdue with user and book details", responses = {@ApiResponse(responseCode = "200", description = "Report successfully generated", content = @Content(mediaType = "text/plain"))})
     public String generateOverdueReport() {

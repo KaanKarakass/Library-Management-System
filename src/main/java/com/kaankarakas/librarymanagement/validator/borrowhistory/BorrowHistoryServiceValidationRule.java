@@ -8,6 +8,7 @@ public enum BorrowHistoryServiceValidationRule {
     ERR_USER_NOT_AVAILABLE("Book is not available"),
     ERR_BORROW_RECORD_NOT_FOUND("Borrow record not found"),
     ERR_BOOK_ALREADY_RETURNED("Book already returned"),
+    ERR_INVALID_USER("You are not allowed to return books for other users"),
     /*end of enum*/;
 
     private final String description;

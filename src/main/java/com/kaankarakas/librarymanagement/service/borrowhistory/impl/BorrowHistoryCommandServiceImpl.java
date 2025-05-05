@@ -13,12 +13,15 @@ import com.kaankarakas.librarymanagement.mapper.borrowhistory.BorrowHistoryMappe
 import com.kaankarakas.librarymanagement.repository.barrowhistory.BorrowHistoryRepository;
 import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.repository.user.UserRepository;
+import com.kaankarakas.librarymanagement.security.SecurityUtil;
 import com.kaankarakas.librarymanagement.service.borrowhistory.BorrowHistoryCommandService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDate;
 
 import static com.kaankarakas.librarymanagement.validator.borrowhistory.BorrowHistoryServiceValidationRule.*;
 import static com.kaankarakas.librarymanagement.validator.user.UserServiceValidationRule.ERR_USER_NOT_FOUND;
@@ -32,8 +35,8 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     private final UserRepository userRepository;
     private final BorrowHistoryMapper borrowHistoryMapper;
 
-    private User checkUserById(Long userId) {
-        User user = userRepository.findById(userId)
+    private User checkUserByUsername(String userName) {
+        User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new LibraryException(ERR_USER_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
         if (user.getUserStatus() != UserStatus.ACTIVE) {
             throw new LibraryException(ERR_USER_NOT_ELIGIBLE.getDescription(), HttpStatus.BAD_REQUEST);
@@ -56,10 +59,14 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
         return borrowHistory;
     }
 
+    private String getUsernameFromUtil() {
+        return SecurityUtil.getCurrentUsername();
+    }
+
     @Transactional
     @Override
-    public BorrowHistoryDTO borrowBook(Long userId, BorrowRequestDTO request) {
-        User user = checkUserById(userId);
+    public BorrowHistoryDTO borrowBook(BorrowRequestDTO request) {
+        User user = checkUserByUsername(getUsernameFromUtil());
         Book book = checkBookById(request.getBookId());
 
         book.setBookStatus(BookStatus.BORROWED);
@@ -81,9 +88,17 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     @Transactional
     @Override
     public BorrowHistoryDTO returnBook(Long historyId, ReturnRequestDTO request) {
+        User user = checkUserByUsername(getUsernameFromUtil());
         BorrowHistory borrowHistory = checkBorrowHistoryById(historyId);
 
-        borrowHistory.setReturnDate(request.getReturnDate());
+        if (!user.getId().equals(borrowHistory.getUser().getId())) {
+            throw new LibraryException(ERR_INVALID_USER.getDescription(), HttpStatus.FORBIDDEN);
+        }
+
+        borrowHistory.setReturnDate(request != null && request.getReturnDate() != null
+                ? request.getReturnDate()
+                : LocalDate.now());
+
         borrowHistory.setIsReturned(true);
 
         Book book = borrowHistory.getBook();

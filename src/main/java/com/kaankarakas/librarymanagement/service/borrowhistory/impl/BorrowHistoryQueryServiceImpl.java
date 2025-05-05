@@ -7,6 +7,7 @@ import com.kaankarakas.librarymanagement.enums.UserStatus;
 import com.kaankarakas.librarymanagement.mapper.borrowhistory.BorrowHistoryMapper;
 import com.kaankarakas.librarymanagement.repository.barrowhistory.BorrowHistoryRepository;
 import com.kaankarakas.librarymanagement.repository.user.UserRepository;
+import com.kaankarakas.librarymanagement.security.SecurityUtil;
 import com.kaankarakas.librarymanagement.service.borrowhistory.BorrowHistoryQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
     private final UserRepository userRepository;
     private final BorrowHistoryMapper borrowHistoryMapper;
 
-    private User checkUserById(Long userId) {
-        User user = userRepository.findById(userId)
+    private User checkUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new LibraryException(ERR_USER_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
         if (user.getUserStatus() != UserStatus.ACTIVE) {
             throw new LibraryException(ERR_USER_NOT_ELIGIBLE.getDescription(), HttpStatus.BAD_REQUEST);
@@ -43,9 +44,13 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
         return user;
     }
 
+    private String getUsernameFromUtil() {
+        return SecurityUtil.getCurrentUsername();
+    }
+
     @Override
-    public List<BorrowHistoryDTO> getUserHistory(Long userId) {
-        User user = checkUserById(userId);
+    public List<BorrowHistoryDTO> getUserHistory() {
+        User user = checkUserByUsername(getUsernameFromUtil());
         return historyRepository.findByUser(user).stream()
                 .map(borrowHistoryMapper::toDTO)
                 .toList();

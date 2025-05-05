@@ -7,7 +7,7 @@ import com.kaankarakas.librarymanagement.dto.response.borrowhistory.BorrowHistor
 import java.util.List;
 
 public interface BorrowHistoryCommandService {
-    BorrowHistoryDTO borrowBook(Long userId, BorrowRequestDTO dto);
+    BorrowHistoryDTO borrowBook(BorrowRequestDTO dto);
 
     BorrowHistoryDTO returnBook(Long historyId, ReturnRequestDTO dto);
 
