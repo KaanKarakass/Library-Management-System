@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = ApiEndpointConstants.BOOK_API, produces = {ApiEndpointConstants.RESPONSE_CONTENT_TYPE}, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 @RequiredArgsConstructor
+@Slf4j
 public class BookApiController {
     private final BookCommandService bookCommandService;
     private final BookQueryService bookQueryService;
@@ -35,6 +37,7 @@ public class BookApiController {
     @Operation(summary = "Add book", description = "Add a new book to the library")
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Book successfully added", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class))), @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Invalid data\"}")))})
     public BookDTO addBook(@RequestBody CreateBookRequest request) {
+        log.info("Adding new book with title: {}", request.getTitle());
         return bookCommandService.addBook(request);
     }
 
@@ -44,6 +47,7 @@ public class BookApiController {
     @Operation(summary = "Get book details by ID")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Book found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class))), @ApiResponse(responseCode = "404", description = "Book not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book not found with the given ID\"}")))})
     public BookDTO getBookById(@PathVariable Long id) {
+        log.info("Retrieving book with id: {}", id);
         return bookQueryService.findBookById(id);
     }
 
@@ -52,6 +56,7 @@ public class BookApiController {
     @Operation(summary = "Search books with filters and pagination")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Books retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookPageResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Invalid request parameters\"}"))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error\"}")))})
     public BookPageResponseDTO searchBooks(SearchBookRequest request) {
+        log.info("Searching books with criteria: {}", request);
         return bookQueryService.searchBooks(request);
     }
 
@@ -61,6 +66,7 @@ public class BookApiController {
     @Operation(summary = "Update an existing book")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Book successfully updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class))), @ApiResponse(responseCode = "404", description = "Book not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book not found\"}"))), @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Invalid request body\"}")))})
     public BookDTO updateBook(@PathVariable Long id, @RequestBody @Valid UpdateBookRequest request) {
+        log.info("Updating book id: {} with new data", id);
         return bookCommandService.updateBook(id, request);
     }
 
@@ -69,6 +75,7 @@ public class BookApiController {
     @Operation(summary = "Soft delete a book")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Book successfully deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDTO.class))), @ApiResponse(responseCode = "404", description = "Book not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book not found\"}"))), @ApiResponse(responseCode = "400", description = "Book already deleted", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Book already deleted\"}")))})
     public BookDTO deleteBook(@PathVariable Long id) {
+        log.info("Deleting book with id: {}", id);
         return bookCommandService.deleteBook(id);
     }
 }

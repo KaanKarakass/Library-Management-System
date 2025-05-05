@@ -12,6 +12,7 @@ import com.kaankarakas.librarymanagement.service.book.BookCommandService;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import static com.kaankarakas.librarymanagement.validator.book.BookServiceValida
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookCommandServiceImpl implements BookCommandService {
 
     private final BookRepository bookRepository;
@@ -29,32 +31,42 @@ public class BookCommandServiceImpl implements BookCommandService {
 
     @Override
     public BookDTO addBook(CreateBookRequest createBookRequest) {
-        return bookMapper.toDTO(bookRepository.save(checkAndPrepareAddBook(createBookRequest)));
+        log.info("Adding new book with ISBN: {} and title: {}", createBookRequest.getIsbn(), createBookRequest.getTitle());
+        Book savedBook = bookRepository.save(checkAndPrepareAddBook(createBookRequest));
+        log.info("Book added with ID: {}", savedBook.getId());
+        return bookMapper.toDTO(savedBook);
     }
 
     @Override
     public BookDTO updateBook(Long id, UpdateBookRequest updateBookRequest) {
 
         Book book = checkBookId(id);
-
+        log.info("Updating book with id: {}", id);
         if (updateBookRequest.getIsbn() != null && !Objects.equals(book.getIsbn(), updateBookRequest.getIsbn())) {
             checkIsbn(updateBookRequest.getIsbn());
         }
 
         bookMapper.updateBookFromDto(updateBookRequest, book);
 
-        return bookMapper.toDTO(bookRepository.save(book));
+        Book updatedBook = bookRepository.save(book);
+        log.info("Book with ID: {} updated successfully", id);
+        return bookMapper.toDTO(updatedBook);
     }
 
     @Override
     public BookDTO deleteBook(Long bookId) {
+        log.info("Deleting book with ID: {}", bookId);
         Book book = checkBookId(bookId);
 
         if (BookStatus.DELETED.equals(book.getBookStatus())) {
+            log.warn("Attempted to delete already deleted book with ID: {}", bookId);
             throw new LibraryException(ERR_BOOK_ALREADY_DELETED.getDescription(), HttpStatus.BAD_REQUEST);
         }
         book.setBookStatus(BookStatus.DELETED);
-        return bookMapper.toDTO(bookRepository.save(book));
+        Book deletedBook = bookRepository.save(book);
+
+        log.info("Book with ID: {} marked as deleted", bookId);
+        return bookMapper.toDTO(deletedBook);
     }
 
     private Book checkAndPrepareAddBook(CreateBookRequest createBookRequest) {
@@ -69,15 +81,18 @@ public class BookCommandServiceImpl implements BookCommandService {
         book.setGenre(createBookRequest.getGenre());
         return book;
     }
+
     private Book checkBookId(Long id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
     }
+
     private void checkIsbn(String ISBN) {
         if (bookRepository.existsByIsbnAndBookStatusNot(ISBN, BookStatus.DELETED)) {
             throw new LibraryException(ERR_BOOK_ALREADY_EXISTS.getDescription(), HttpStatus.BAD_REQUEST);
         }
     }
+
     private void checkPublicationDate(LocalDate publicationDate) {
         if (publicationDate.isAfter(LocalDate.now())) {
             throw new LibraryException(ERR_PUBLICATION_DATE_FUTURE.getDescription(), HttpStatus.BAD_REQUEST);
