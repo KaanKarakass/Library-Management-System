@@ -17,6 +17,7 @@ import com.kaankarakas.librarymanagement.security.SecurityUtil;
 import com.kaankarakas.librarymanagement.service.borrowhistory.BorrowHistoryCommandService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ import static com.kaankarakas.librarymanagement.validator.user.UserServiceValida
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandService {
 
     private final BorrowHistoryRepository historyRepository;
@@ -36,15 +38,18 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     private final BorrowHistoryMapper borrowHistoryMapper;
 
     private User checkUserByUsername(String userName) {
+        log.info("Checking user with username: {}", userName);
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new LibraryException(ERR_USER_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
         if (user.getUserStatus() != UserStatus.ACTIVE) {
+            log.error("User {} is not eligible", userName);
             throw new LibraryException(ERR_USER_NOT_ELIGIBLE.getDescription(), HttpStatus.BAD_REQUEST);
         }
         return user;
     }
 
     private Book checkBookById(Long bookId) {
+        log.info("Checking availability for book with ID: {}", bookId);
         return bookRepository.findByIdAndBookStatus(bookId, BookStatus.ACTIVE)
                 .orElseThrow(() -> new LibraryException(ERR_USER_NOT_AVAILABLE.getDescription(), HttpStatus.BAD_REQUEST));
     }
@@ -66,6 +71,7 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     @Transactional
     @Override
     public BorrowHistoryDTO borrowBook(BorrowRequestDTO request) {
+        log.info("Starting book borrow process for user {}", getUsernameFromUtil());
         User user = checkUserByUsername(getUsernameFromUtil());
         Book book = checkBookById(request.getBookId());
 
@@ -77,9 +83,11 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     }
 
     private BorrowHistory checkBorrowHistoryById(Long historyId) {
+        log.info("Checking borrow history with ID: {}", historyId);
         BorrowHistory borrowHistory = historyRepository.findById(historyId)
                 .orElseThrow(() -> new LibraryException(ERR_BORROW_RECORD_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
         if (borrowHistory.getIsReturned()) {
+            log.error("Book with borrow history ID {} has already been returned", historyId);
             throw new LibraryException(ERR_BOOK_ALREADY_RETURNED.getDescription(), HttpStatus.NOT_FOUND);
         }
         return borrowHistory;
@@ -88,10 +96,12 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     @Transactional
     @Override
     public BorrowHistoryDTO returnBook(Long historyId, ReturnRequestDTO request) {
+        log.info("Starting book return process for history ID {}", historyId);
         User user = checkUserByUsername(getUsernameFromUtil());
         BorrowHistory borrowHistory = checkBorrowHistoryById(historyId);
 
         if (!user.getId().equals(borrowHistory.getUser().getId())) {
+            log.error("User {} is not the one who borrowed the book", user.getUsername());
             throw new LibraryException(ERR_INVALID_USER.getDescription(), HttpStatus.FORBIDDEN);
         }
 

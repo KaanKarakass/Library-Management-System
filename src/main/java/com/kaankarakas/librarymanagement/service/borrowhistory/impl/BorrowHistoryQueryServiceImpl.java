@@ -10,6 +10,7 @@ import com.kaankarakas.librarymanagement.repository.user.UserRepository;
 import com.kaankarakas.librarymanagement.security.SecurityUtil;
 import com.kaankarakas.librarymanagement.service.borrowhistory.BorrowHistoryQueryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import static com.kaankarakas.librarymanagement.validator.user.UserServiceValida
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService {
     private static final String REPORT_HEADER = "OVERDUE BOOKS REPORT";
     private static final String REPORT_SEPARATOR = "--------------------";
@@ -36,9 +38,11 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
     private final BorrowHistoryMapper borrowHistoryMapper;
 
     private User checkUserByUsername(String username) {
+        log.debug("Checking user with username: {}", username);
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new LibraryException(ERR_USER_NOT_FOUND.getDescription(), HttpStatus.NOT_FOUND));
         if (user.getUserStatus() != UserStatus.ACTIVE) {
+            log.error("User '{}' is not eligible (status: {})", username, user.getUserStatus());
             throw new LibraryException(ERR_USER_NOT_ELIGIBLE.getDescription(), HttpStatus.BAD_REQUEST);
         }
         return user;
@@ -50,6 +54,7 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
 
     @Override
     public List<BorrowHistoryDTO> getUserHistory() {
+        log.debug("Fetching borrow history for current user");
         User user = checkUserByUsername(getUsernameFromUtil());
         return historyRepository.findByUser(user).stream()
                 .map(borrowHistoryMapper::toDTO)
@@ -59,6 +64,7 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
 
     @Override
     public List<BorrowHistoryDTO> getAllHistories() {
+        log.debug("Fetching all borrow histories");
         return historyRepository.findAll().stream()
                 .map(borrowHistoryMapper::toDTO)
                 .toList();
@@ -66,6 +72,7 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
 
     @Override
     public String generateOverdueReport() {
+        log.debug("Generating overdue report");
         List<BorrowHistoryDTO> overdue = historyRepository
                 .findByIsReturnedFalseAndDueDateBefore(LocalDate.now())
                 .stream()
@@ -96,7 +103,7 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
 
         sb.append(REPORT_FOOTER_PREFIX)
                 .append(LocalDateTime.now().format(fmt));
-
+        log.info("Overdue report generated with {} records", overdue.size());
         return sb.toString();
     }
 }
