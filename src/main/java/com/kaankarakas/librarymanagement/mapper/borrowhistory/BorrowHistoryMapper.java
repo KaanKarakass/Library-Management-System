@@ -11,5 +11,7 @@ public interface BorrowHistoryMapper {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "book.id", target = "bookId")
+    @Mapping(source = "user.name", target = "userName")
+    @Mapping(source = "book.title", target = "bookTitle")
     BorrowHistoryDTO toDTO(BorrowHistory entity);
 }

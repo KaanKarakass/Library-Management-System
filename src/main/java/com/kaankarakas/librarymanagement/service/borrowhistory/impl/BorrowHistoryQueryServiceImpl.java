@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.kaankarakas.librarymanagement.validator.borrowhistory.BorrowHistoryServiceValidationRule.ERR_USER_NOT_ELIGIBLE;
@@ -20,6 +23,13 @@ import static com.kaankarakas.librarymanagement.validator.user.UserServiceValida
 @Service
 @RequiredArgsConstructor
 public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService {
+    private static final String REPORT_HEADER = "OVERDUE BOOKS REPORT";
+    private static final String REPORT_SEPARATOR = "--------------------";
+    private static final String TOTAL_OVERDUE_FORMAT = "Total Overdue Records: %d\n";
+    private static final String USERS_OVERDUE_FORMAT = "Users with Overdues: %d\n\n";
+    private static final String DETAILS_HEADER = "Details:\n";
+    private static final String DETAIL_LINE_FORMAT = "- User %d (%s) did not return Book %d (\"%s\") borrowed on %s (due %s)\n";
+    private static final String REPORT_FOOTER_PREFIX = "\nGenerated At: ";
     private final BorrowHistoryRepository historyRepository;
     private final UserRepository userRepository;
     private final BorrowHistoryMapper borrowHistoryMapper;
@@ -50,8 +60,38 @@ public class BorrowHistoryQueryServiceImpl implements BorrowHistoryQueryService 
     }
 
     @Override
-    public List<BorrowHistoryDTO> getOverdueReports() {
-       //yazılacak.
-        return null;
+    public String generateOverdueReport() {
+        List<BorrowHistoryDTO> overdue = historyRepository
+                .findByIsReturnedFalseAndDueDateBefore(LocalDate.now())
+                .stream()
+                .map(borrowHistoryMapper::toDTO)
+                .toList();
+
+        StringBuilder sb = new StringBuilder();
+        DateTimeFormatter fmt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+        sb.append(REPORT_HEADER)
+                .append(REPORT_SEPARATOR)
+                .append(String.format(TOTAL_OVERDUE_FORMAT, overdue.size()))
+                .append(String.format(USERS_OVERDUE_FORMAT,
+                        overdue.stream().map(BorrowHistoryDTO::getUserId).distinct().count()))
+                .append(DETAILS_HEADER);
+
+        overdue.forEach(dto -> sb.append(
+                String.format(
+                        DETAIL_LINE_FORMAT,
+                        dto.getUserId(),
+                        dto.getUserName(),
+                        dto.getBookId(),
+                        dto.getBookTitle(),
+                        dto.getBorrowDate(),
+                        dto.getDueDate()
+                )
+        ));
+
+        sb.append(REPORT_FOOTER_PREFIX)
+                .append(LocalDateTime.now().format(fmt));
+
+        return sb.toString();
     }
 }

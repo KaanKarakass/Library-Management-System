@@ -9,5 +9,5 @@ public interface BorrowHistoryQueryService {
 
     List<BorrowHistoryDTO> getAllHistories();
 
-    List<BorrowHistoryDTO> getOverdueReports();
+    String generateOverdueReport();
 }
