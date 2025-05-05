@@ -2,11 +2,13 @@ package com.kaankarakas.librarymanagement.dto.request.book;
 
 import com.kaankarakas.librarymanagement.enums.Genre;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 public class SearchBookRequest {
     @Schema(description = "Title of the book", example = "Effective Java")
     private String title;
