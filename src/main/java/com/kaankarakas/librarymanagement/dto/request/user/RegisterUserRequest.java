@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 import static com.kaankarakas.librarymanagement.constants.LibraryManagementDefinitionConstants.*;
 
 @Data
+@Builder
 public class RegisterUserRequest {
     @Schema(description = "Full name of the user", example = "John Doe", maxLength = NAME_MAX_LENGTH)
     @Size(max = NAME_MAX_LENGTH)

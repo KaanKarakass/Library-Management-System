@@ -3,9 +3,11 @@ package com.kaankarakas.librarymanagement.dto.request.user;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UpdateUserRequest {
     @Size(max = 50)
     @Schema(description = "Full name of the user", example = "John Doe")

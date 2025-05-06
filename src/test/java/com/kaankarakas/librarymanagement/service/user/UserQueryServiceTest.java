@@ -3,11 +3,6 @@ package com.kaankarakas.librarymanagement.service.user;
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.dto.response.user.UserDTO;
-import com.kaankarakas.librarymanagement.enums.UserRole;
-import com.kaankarakas.librarymanagement.enums.UserStatus;
-import com.kaankarakas.librarymanagement.mapper.user.UserMapper;
-import com.kaankarakas.librarymanagement.repository.user.UserRepository;
-import com.kaankarakas.librarymanagement.service.user.impl.UserQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,52 +16,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class UserQueryServiceTest {
-
-    private static final long USER_ID = 1L;
-    private static final long SECOND_USER_ID = 2L;
-    private static final String USERNAME = "testUsername";
-    private static final String NAME = "testName";
-    private static final String EMAIL = "test@test.com";
-    private static final String PASSWORD = "password";
-    private static final UserRole ROLE = UserRole.LIBRARIAN;
-    private static final UserStatus STATUS = UserStatus.ACTIVE;
+public class UserQueryServiceTest extends UserServiceTestBase {
 
     @Mock
     private UserQueryService userQueryService;
 
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private UserMapper userMapper;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userQueryService = new UserQueryServiceImpl(userRepository, userMapper);
-    }
-    private User prepareUser() {
-        User user = new User();
-        user.setId(USER_ID);
-        user.setUsername(USERNAME);
-        user.setName(NAME);
-        user.setEmail(EMAIL);
-        user.setPassword(PASSWORD);
-        user.setRole(ROLE);
-        user.setUserStatus(STATUS);
-        return user;
-    }
-
-    private UserDTO prepareUserDTO() {
-        UserDTO user = new UserDTO();
-        user.setId(USER_ID);
-        user.setUsername(USERNAME);
-        user.setName(NAME);
-        user.setEmail(EMAIL);
-        user.setRole(ROLE);
-        user.setUserStatus(STATUS);
-        return user;
     }
 
     @Test
