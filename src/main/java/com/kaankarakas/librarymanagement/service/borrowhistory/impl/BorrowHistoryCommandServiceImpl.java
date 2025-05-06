@@ -51,7 +51,7 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
     private Book checkBookById(Long bookId) {
         log.info("Checking availability for book with ID: {}", bookId);
         return bookRepository.findByIdAndBookStatus(bookId, BookStatus.ACTIVE)
-                .orElseThrow(() -> new LibraryException(ERR_USER_NOT_AVAILABLE.getDescription(), HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new LibraryException(ERR_BOOK_NOT_AVAILABLE.getDescription(), HttpStatus.BAD_REQUEST));
     }
 
     private BorrowHistory prepareBorrowHistory(User user, Book book, BorrowRequestDTO request) {
@@ -105,7 +105,7 @@ public class BorrowHistoryCommandServiceImpl implements BorrowHistoryCommandServ
             throw new LibraryException(ERR_INVALID_USER.getDescription(), HttpStatus.FORBIDDEN);
         }
 
-        borrowHistory.setReturnDate(request != null && request.getReturnDate() != null
+        borrowHistory.setReturnDate(request.getReturnDate() != null
                 ? request.getReturnDate()
                 : LocalDate.now());
 

@@ -3,6 +3,7 @@ package com.kaankarakas.librarymanagement.service.user;
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.dto.response.user.UserDTO;
+import com.kaankarakas.librarymanagement.service.user.impl.UserQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,6 +25,7 @@ public class UserQueryServiceTest extends UserServiceTestBase {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        userQueryService = new UserQueryServiceImpl(userRepository, userMapper);
     }
 
     @Test
@@ -50,7 +52,7 @@ public class UserQueryServiceTest extends UserServiceTestBase {
     @Test
     void findUserById_ShouldThrowLibraryException_WhenUserDoesNotExist() {
         // Arrange
-        when(userRepository.findById(2L)).thenReturn(Optional.empty());
+        when(userRepository.findById(SECOND_USER_ID)).thenReturn(Optional.empty());
 
         // Act
         LibraryException exception = assertThrows(LibraryException.class, () -> userQueryService.findUserById(SECOND_USER_ID));
@@ -59,7 +61,7 @@ public class UserQueryServiceTest extends UserServiceTestBase {
         assertThat(exception.getMessage()).isEqualTo(ERR_USER_NOT_FOUND.getDescription());
         assertThat(exception.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        verify(userRepository).findById(2L);
+        verify(userRepository).findById(SECOND_USER_ID);
         verifyNoInteractions(userMapper);
     }
 }

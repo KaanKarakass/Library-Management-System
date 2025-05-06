@@ -10,21 +10,19 @@ import com.kaankarakas.librarymanagement.enums.UserRole;
 import com.kaankarakas.librarymanagement.enums.UserStatus;
 import com.kaankarakas.librarymanagement.mapper.borrowhistory.BorrowHistoryMapper;
 import com.kaankarakas.librarymanagement.repository.barrowhistory.BorrowHistoryRepository;
+import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.repository.user.UserRepository;
-import com.kaankarakas.librarymanagement.security.SecurityUtil;
-import com.kaankarakas.librarymanagement.service.borrowhistory.impl.BorrowHistoryQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.mockStatic;
-
 public abstract class BorrowHistoryServiceTestBase {
 
     protected static final String USERNAME = "username";
     protected static final long USER_ID = 1L;
+    protected static final long SECOND_USER_ID = 2L;
     protected static final long BORROW_ID = 1L;
     protected static final String NAME = "testName";
     protected static final String EMAIL = "test@test.com";
@@ -36,10 +34,12 @@ public abstract class BorrowHistoryServiceTestBase {
     protected static final String BOOK_TITLE = "Test Book";
     protected static final String BOOK_AUTHOR = "Test Author";
     protected static final String BOOK_ISBN = "1231234123";
+    protected static final BookStatus BOOK_STATUS = BookStatus.ACTIVE;
     protected static final LocalDate PUBLICATION_DATE = LocalDate.of(2025, 5, 5);
     protected static final Genre GENRE = Genre.BIOGRAPHY;
     protected static final LocalDate BORROW_DATE = LocalDate.of(2020, 2, 2);
     protected static final LocalDate DUE_DATE = LocalDate.of(2020, 2, 20);
+    protected static final LocalDate RETURN_DATE = LocalDate.of(2020, 2, 20);
 
     @Mock
     protected BorrowHistoryRepository historyRepository;
