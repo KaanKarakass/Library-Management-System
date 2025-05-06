@@ -5,9 +5,6 @@ import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.dto.response.book.BookDTO;
 import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
-import com.kaankarakas.librarymanagement.enums.Genre;
-import com.kaankarakas.librarymanagement.mapper.book.BookMapper;
-import com.kaankarakas.librarymanagement.repository.book.BookRepository;
 import com.kaankarakas.librarymanagement.service.book.Impl.BookQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,50 +26,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class BookQueryServiceTest {
+public class BookQueryServiceTest extends BookServiceTestBase {
 
-    private static final long BOOK_ID = 1L;
-    private static final String BOOK_TITLE = "Test Book";
-    private static final String BOOK_AUTHOR = "Test Author";
-    private static final String BOOK_ISBN = "1231234123";
-    private static final LocalDate PUBLICATION_DATE = LocalDate.of(2025, 5, 5);
-    private static final Genre GENRE = Genre.BIOGRAPHY;
     private static final int PAGE = 0;
     private static final int SIZE = 10;
 
     @Mock
-    private BookRepository bookRepository;
-
-    @Mock
-    private BookMapper bookMapper;
-
-    @InjectMocks
-    private BookQueryServiceImpl bookQueryService;
+    private BookQueryService bookQueryService;
 
     @BeforeEach
-    public void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    private Book prepareBook() {
-        Book book = new Book();
-        book.setId(BOOK_ID);
-        book.setTitle(BOOK_TITLE);
-        book.setAuthor(BOOK_AUTHOR);
-        book.setIsbn(BOOK_ISBN);
-        book.setPublicationDate(PUBLICATION_DATE);
-        book.setGenre(GENRE);
-        return book;
-    }
-
-    private BookDTO prepareBookDTO() {
-        BookDTO book = new BookDTO();
-        book.setTitle(BOOK_TITLE);
-        book.setAuthor(BOOK_AUTHOR);
-        book.setIsbn(BOOK_ISBN);
-        book.setPublicationDate(PUBLICATION_DATE.toString());
-        book.setGenre(GENRE.name());
-        return book;
+        bookQueryService = new BookQueryServiceImpl(bookRepository, bookMapper);
     }
 
     private SearchBookRequest prepareSearchBookRequest(boolean isCompleteRequest) {
