@@ -1,12 +1,9 @@
 package com.kaankarakas.librarymanagement.service.auth;
 
-import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.dto.request.auth.AuthRequest;
 import com.kaankarakas.librarymanagement.dto.response.auth.AuthResponse;
 import com.kaankarakas.librarymanagement.security.JwtUtil;
 import com.kaankarakas.librarymanagement.service.auth.impl.AuthServiceImpl;
-import com.kaankarakas.librarymanagement.service.book.BookCommandService;
-import com.kaankarakas.librarymanagement.service.book.Impl.BookCommandServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -55,14 +52,14 @@ public class AuthServiceTest {
         return new AuthRequest(USERNAME, PASSWORD);
     }
 
-    private AuthResponse preAuthResponse() {
+    private AuthResponse prepareAuthResponse() {
         return new AuthResponse(TOKEN);
     }
 
     @Test
     void testLogin_ShouldReturnAuthResponse_WhenSuccess() {
         // Arrange
-        AuthResponse authResponse = preAuthResponse();
+        AuthResponse authResponse = prepareAuthResponse();
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
 
