@@ -12,5 +12,7 @@ public enum Genre {
     HISTORY,
     CHILDREN,
     YOUNG_ADULT,
-    CLASSIC;
+    CLASSIC,
+    DYSTOPIA,
+    TECHNICAL;
 }

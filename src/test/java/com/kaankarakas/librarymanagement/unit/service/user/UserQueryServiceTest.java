@@ -1,8 +1,9 @@
-package com.kaankarakas.librarymanagement.service.user;
+package com.kaankarakas.librarymanagement.unit.service.user;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.dto.response.user.UserDTO;
+import com.kaankarakas.librarymanagement.service.user.UserQueryService;
 import com.kaankarakas.librarymanagement.service.user.impl.UserQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

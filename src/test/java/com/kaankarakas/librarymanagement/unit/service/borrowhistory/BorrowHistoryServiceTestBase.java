@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.service.borrowhistory;
+package com.kaankarakas.librarymanagement.unit.service.borrowhistory;
 
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.domain.borrowhistory.BorrowHistory;

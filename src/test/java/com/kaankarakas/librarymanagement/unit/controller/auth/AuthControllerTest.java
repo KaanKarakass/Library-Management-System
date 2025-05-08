@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.controller.auth;
+package com.kaankarakas.librarymanagement.unit.controller.auth;
 
 import com.kaankarakas.librarymanagement.api.controller.auth.AuthController;
 import com.kaankarakas.librarymanagement.dto.request.auth.AuthRequest;

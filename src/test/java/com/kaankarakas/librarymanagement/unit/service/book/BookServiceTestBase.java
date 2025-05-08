@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.service.book;
+package com.kaankarakas.librarymanagement.unit.service.book;
 
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.response.book.BookDTO;

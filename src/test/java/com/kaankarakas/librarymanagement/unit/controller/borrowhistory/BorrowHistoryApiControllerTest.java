@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.controller.borrowhistory;
+package com.kaankarakas.librarymanagement.unit.controller.borrowhistory;
 
 import com.kaankarakas.librarymanagement.api.controller.borrowhistory.BorrowHistoryApiController;
 import com.kaankarakas.librarymanagement.domain.book.Book;

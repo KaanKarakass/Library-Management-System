@@ -1,10 +1,11 @@
-package com.kaankarakas.librarymanagement.service.borrowhistory;
+package com.kaankarakas.librarymanagement.unit.service.borrowhistory;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.borrowhistory.BorrowHistory;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.dto.response.borrowhistory.BorrowHistoryDTO;
 import com.kaankarakas.librarymanagement.security.SecurityUtil;
+import com.kaankarakas.librarymanagement.service.borrowhistory.BorrowHistoryQueryService;
 import com.kaankarakas.librarymanagement.service.borrowhistory.impl.BorrowHistoryQueryServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

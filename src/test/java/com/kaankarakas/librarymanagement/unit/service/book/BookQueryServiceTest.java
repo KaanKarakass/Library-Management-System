@@ -1,14 +1,14 @@
-package com.kaankarakas.librarymanagement.service.book;
+package com.kaankarakas.librarymanagement.unit.service.book;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.dto.request.book.SearchBookRequest;
 import com.kaankarakas.librarymanagement.dto.response.book.BookDTO;
 import com.kaankarakas.librarymanagement.dto.response.book.BookPageResponseDTO;
+import com.kaankarakas.librarymanagement.service.book.BookQueryService;
 import com.kaankarakas.librarymanagement.service.book.Impl.BookQueryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jpa.domain.Specification;

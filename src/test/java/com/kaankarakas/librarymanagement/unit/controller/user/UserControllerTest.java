@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.controller.user;
+package com.kaankarakas.librarymanagement.unit.controller.user;
 
 import com.kaankarakas.librarymanagement.api.controller.user.UserController;
 import com.kaankarakas.librarymanagement.domain.user.User;

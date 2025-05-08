@@ -1,8 +1,9 @@
-package com.kaankarakas.librarymanagement.service.auth;
+package com.kaankarakas.librarymanagement.unit.service.auth;
 
 import com.kaankarakas.librarymanagement.dto.request.auth.AuthRequest;
 import com.kaankarakas.librarymanagement.dto.response.auth.AuthResponse;
 import com.kaankarakas.librarymanagement.security.JwtUtil;
+import com.kaankarakas.librarymanagement.service.auth.AuthService;
 import com.kaankarakas.librarymanagement.service.auth.impl.AuthServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

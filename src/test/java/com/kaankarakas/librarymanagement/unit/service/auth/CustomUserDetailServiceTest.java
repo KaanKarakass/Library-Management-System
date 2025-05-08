@@ -1,10 +1,11 @@
-package com.kaankarakas.librarymanagement.service.auth;
+package com.kaankarakas.librarymanagement.unit.service.auth;
 
 import com.kaankarakas.librarymanagement.api.exception.LibraryException;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.enums.UserRole;
 import com.kaankarakas.librarymanagement.repository.user.UserRepository;
 
+import com.kaankarakas.librarymanagement.service.auth.CustomUserDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

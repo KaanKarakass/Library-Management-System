@@ -1,4 +1,4 @@
-package com.kaankarakas.librarymanagement.controller.book;
+package com.kaankarakas.librarymanagement.unit.controller.book;
 
 import com.kaankarakas.librarymanagement.api.controller.book.BookApiController;
 import com.kaankarakas.librarymanagement.domain.book.Book;
