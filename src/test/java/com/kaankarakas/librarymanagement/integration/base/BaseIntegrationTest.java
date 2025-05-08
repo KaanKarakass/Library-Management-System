@@ -2,6 +2,7 @@ package com.kaankarakas.librarymanagement.integration.base;
 
 import com.kaankarakas.librarymanagement.dto.request.auth.AuthRequest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -24,15 +25,16 @@ public abstract class BaseIntegrationTest {
     @Autowired
     protected TestRestTemplate restTemplate;
 
-    @BeforeAll
-    static void setUp(@Autowired TestRestTemplate restTemplate, @LocalServerPort int port) {
-        librarianToken = getToken(restTemplate, port, "bob", "securePass");
-        librarianToken = librarianToken.replace("{\"token\":\"", "").replace("\"}", "");
+    @BeforeEach
+    void initTokens() {
+        if (librarianToken == null || patronToken == null) {
+            librarianToken = getToken(new TestRestTemplate(), port, "bob", "securePass");
+            librarianToken = librarianToken.replace("{\"token\":\"", "").replace("\"}", "");
 
-        patronToken = getToken(restTemplate, port, "alice", "password123");
-        patronToken = patronToken.replace("{\"token\":\"", "").replace("\"}", "");
+            patronToken = getToken(new TestRestTemplate(), port, "alice", "password123");
+            patronToken = patronToken.replace("{\"token\":\"", "").replace("\"}", "");
+        }
     }
-
     private static String getToken(TestRestTemplate restTemplate, int port, String username, String password) {
         AuthRequest loginRequest = new AuthRequest(username, password);
         ResponseEntity<String> response = restTemplate.postForEntity(
