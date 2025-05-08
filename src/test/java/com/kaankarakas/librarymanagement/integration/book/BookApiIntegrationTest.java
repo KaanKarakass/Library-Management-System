@@ -17,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -39,12 +37,14 @@ public class BookApiIntegrationTest extends BaseIntegrationTest {
     private static final String DELETE_BOOK_URL = BOOK_URL + "/delete";
 
     private static final long BOOK_ID = 1L;
+    private static final long INVALID_BOOK_ID = 999999L;
     private static final long DELETED_BOOK_ID = 2L;
     private static final String BOOK_TITLE = "Integration Book";
     private static final String DEFINED_BOOK_TITLE = "The Hobbit";
     private static final String UPDATED_BOOK_TITLE = "Updated Book";
     private static final String BOOK_AUTHOR = "Author Int";
     private static final String BOOK_ISBN = "000111222";
+    private static final String DEFINED_ISBN = "9780547928227";
     private static final LocalDate PUBLICATION_DATE = LocalDate.of(2025, 5, 1);
     private static final Genre GENRE = Genre.FANTASY;
     private static final BookStatus DELETED_BOOK_STATUS = BookStatus.DELETED;
@@ -89,6 +89,22 @@ public class BookApiIntegrationTest extends BaseIntegrationTest {
         assertThat(all).anyMatch(book -> BOOK_TITLE.equals(book.getTitle()));
     }
 
+    @Test
+    void addBook_InvalidData() {
+        // Arrange
+        CreateBookRequest request = prepareCreateBookRequest();
+        request.setIsbn(DEFINED_ISBN);
+        HttpEntity<CreateBookRequest> httpEntity = new HttpEntity<>(request, jsonHeaders(librarianToken));
+
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                URI.create(url(ADD_BOOK_URL)), HttpMethod.POST, httpEntity, String.class
+        );
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
     private SearchBookRequest prepareSearchBookRequest() {
         return SearchBookRequest.builder()
                 .page(0)
@@ -109,6 +125,17 @@ public class BookApiIntegrationTest extends BaseIntegrationTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getTitle()).isEqualTo(DEFINED_BOOK_TITLE);
+    }
+
+    @Test
+    void getBookById_NotFound() {
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                URI.create(url(BOOK_URL + "/" + INVALID_BOOK_ID)), HttpMethod.GET, new HttpEntity<>(jsonHeaders(patronToken)), String.class
+        );
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -152,6 +179,20 @@ public class BookApiIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void updateBook_NotFound() {
+        // Arrange
+        HttpEntity<UpdateBookRequest> request = new HttpEntity<>(prepareUpdateBookRequest(), jsonHeaders(librarianToken));
+
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                URI.create(url(UPDATE_BOOK_URL + "/" + INVALID_BOOK_ID)), HttpMethod.PUT, request, String.class
+        );
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     @DirtiesContext
     void deleteBook_Success() {
         // Arrange
@@ -165,5 +206,16 @@ public class BookApiIntegrationTest extends BaseIntegrationTest {
         // Assert
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getBookStatus()).isEqualTo(DELETED_BOOK_STATUS.toString());
+    }
+
+    @Test
+    void deleteBook_NotFound() {
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                URI.create(url(DELETE_BOOK_URL + "/" + INVALID_BOOK_ID)), HttpMethod.DELETE, new HttpEntity<>(jsonHeaders(librarianToken)), String.class
+        );
+
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }
