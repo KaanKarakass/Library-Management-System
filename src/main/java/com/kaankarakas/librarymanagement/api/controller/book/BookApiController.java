@@ -52,10 +52,10 @@ public class BookApiController {
     }
 
     @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    @GetMapping(value = "/search", consumes = {MediaType.ALL_VALUE})
+    @PostMapping("/search")
     @Operation(summary = "Search books with filters and pagination")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Books retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookPageResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Invalid request parameters\"}"))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error\"}")))})
-    public BookPageResponseDTO searchBooks(SearchBookRequest request) {
+    public BookPageResponseDTO searchBooks(@RequestBody SearchBookRequest request) {
         log.info("Searching books with criteria: {}", request);
         return bookQueryService.searchBooks(request);
     }
