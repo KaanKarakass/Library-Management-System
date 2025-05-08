@@ -1,6 +1,5 @@
 package com.kaankarakas.librarymanagement.integration.user;
 
-import com.kaankarakas.librarymanagement.domain.book.Book;
 import com.kaankarakas.librarymanagement.domain.user.User;
 import com.kaankarakas.librarymanagement.dto.request.user.RegisterUserRequest;
 import com.kaankarakas.librarymanagement.dto.request.user.UpdateUserRequest;
@@ -124,7 +123,6 @@ public class UserApiIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DirtiesContext
     void updateUser_NotFound() {
         // Arrange
         UpdateUserRequest request = prepareUpdateUserRequest();
@@ -157,7 +155,6 @@ public class UserApiIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DirtiesContext
     void deleteUser_NotFound() {
         // Arrange
         HttpEntity<Object> request = new HttpEntity<>(jsonHeaders(librarianToken));

@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.net.URI;
@@ -55,6 +56,7 @@ public class BorrowHistoryIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @DirtiesContext
     void borrowBook_Success() {
         // Arrange
         BorrowRequestDTO request = prepareBorrowRequestDTO();
@@ -87,6 +89,7 @@ public class BorrowHistoryIntegrationTest extends BaseIntegrationTest {
 
 
     @Test
+    @DirtiesContext
     void returnBook_Success() {
         // Arrange
         ReturnRequestDTO request = new ReturnRequestDTO();
