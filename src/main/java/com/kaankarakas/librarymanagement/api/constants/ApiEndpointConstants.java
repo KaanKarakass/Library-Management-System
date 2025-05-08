@@ -8,6 +8,6 @@ public final class ApiEndpointConstants {
     public static final String BOOK_API = API_BASE_URL + "/books";
     public static final String USER_API = API_BASE_URL + "/users";
     public static final String AUTH_API = API_BASE_URL + "/auth";
-    public static final String BORROW_API = API_BASE_URL + "/borrow";
+    public static final String BORROW_API = API_BASE_URL + "/borrow-history";
 
 }
