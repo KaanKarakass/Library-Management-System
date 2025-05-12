@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('LIBRARIAN')")
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", consumes = {MediaType.ALL_VALUE})
     @Operation(summary = "Get user by ID", description = "Retrieves detailed information of a user by their ID.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "User found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))), @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}")))})
     public UserDTO getUserById(@PathVariable Long id) {
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('LIBRARIAN')")
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping(value = "delete/{id}", consumes = {MediaType.ALL_VALUE})
     @Operation(summary = "Soft delete user by ID", description = "Performs a soft delete (marks user as deleted) instead of physically removing them from the database.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "User successfully deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))), @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}")))})
     public UserDTO deleteUser(@PathVariable Long id) {

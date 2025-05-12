@@ -5,6 +5,10 @@ import lombok.Data;
 
 @Data
 public class BookDTO {
+
+    @Schema(description = "Id of the book", example = "12")
+    private Long id;
+
     @Schema(description = "Title of the book", example = "The Great Gatsby", maxLength = 255)
     private String title;
 
