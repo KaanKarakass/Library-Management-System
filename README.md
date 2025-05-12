@@ -33,3 +33,12 @@ The Library Management System is a web application developed with Spring Boot 3,
   - **PATRON**: Can borrow books, return them, and view borrowed books.
   
 - **Authentication**: All endpoints are secured using **JWT-based authentication**. Access is granted based on the user’s role, ensuring proper authorization.	
+
+## Technology Stack Used
+
+- **Spring Boot 3**: Backend framework for building the application.
+- **Java 21**: Programming language for backend development.
+- **PostgreSQL**: Database used for storing application data.
+- **JWT**: For user authentication and authorization.
+- **Swagger/OpenAPI**: For API documentation.
+- **Docker** : For containerization if used in the project.
