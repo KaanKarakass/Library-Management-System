@@ -136,13 +136,13 @@ The application can also be run in a Docker container using Docker Compose. The 
 
 Here is the database schema for the Library Management System:
 
-![Database Schema](Database-Diagram.png)
+![Database Schema](database-diagram/Database-Diagram.png)
 
 ## API Collection (Postman)
 
 The Postman collection for all API endpoints used in the project is provided below. You can use this collection to test the API endpoints.
 
-- **Postman Collection File:** [Library Management API.postman_collection.json](./Library%20Management%20API.postman_collection.json)
+- **Postman Collection File:** [Library Management API.postman_collection.json](postman-collection/Library%20Management%20API.postman_collection.json)
 
 After downloading the Postman collection, you can import it into the Postman app to test the API endpoints.
 
@@ -150,7 +150,7 @@ After downloading the Postman collection, you can import it into the Postman app
 
 For detailed screenshots of the live application, please refer to the following PDF document:
 
-[Live Application Screenshots](./Live-Application-Screenshots-Kaan-Karakas.pdf)
+[Live Application Screenshots](application-screenshots/Live-Application-Screenshots-Kaan-Karakas.pdf)
 
 ## Testing
 
