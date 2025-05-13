@@ -142,6 +142,6 @@ Here is the database schema for the Library Management System:
 
 The Postman collection for all API endpoints used in the project is provided below. You can use this collection to test the API endpoints.
 
-- **Postman Collection File:** [Library Management API.postman_collection.json](./Library Management API.postman_collection.json)
+- **Postman Collection File:** [Library Management API.postman_collection.json](./Library%20Management%20API.postman_collection.json)
 
 After downloading the Postman collection, you can import it into the Postman app to test the API endpoints.
