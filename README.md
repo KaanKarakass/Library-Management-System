@@ -84,3 +84,42 @@ The Library Management System is a web application developed with Spring Boot 3,
    logging.level.org.springframework.web=DEBUG
    logging.level.com.kaankarakas=DEBUG
    ```
+3. **Build and Run the Application:**
+
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+   
+4. **Access the API Documentation:**
+
+   * Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+
+### Docker Setup
+The application can also be run in a Docker container using Docker Compose. The following setup will help you run the application and PostgreSQL together.
+
+1. **Docker Compose Setup:**
+   The docker-compose.yml file is already included in the project. This configuration creates two services: postgres for the database and app for the application.
+   
+2. **Build and Run with Docker Compose:**
+   To build and run the application using Docker Compose:
+   
+   ```bash
+   docker-compose up --build
+   ```
+   
+   This will:
+
+   Build the Docker image for the application.
+
+   Start both the postgres and app containers.
+
+   Map the application to port 8080 and the database to port 5432.
+   
+3. **Stopping the Docker Containers:**
+
+   ```bash
+   docker-compose down
+   ```
+   
+   Now, you can access the application at http://localhost:8080 and the Swagger UI at http://localhost:8080/swagger-ui/index.html.
