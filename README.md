@@ -152,14 +152,22 @@ For detailed screenshots of the live application, please refer to the following 
 
 [Live Application Screenshots](./Live-Application-Screenshots-Kaan-Karakas.pdf)
 
-## Test Coverage Report
+## Testing
+
+### Test Types
+
+- **Integration Tests**: Tests whether all components of the application work together as expected.
+- **Controller Tests**: Verifies that the API endpoints function correctly.
+- **Service Tests**: Ensures that the business logic operates as intended.
+
+### Test Coverage Report
 
 The test coverage report can be accessed at the following link:
 
 - [JoCoCo Test Coverage Report](./JoCoCo-report/index.html)
 - [JoCoCo Test Coverage Report Png](./JoCoCo-report/index.png)
 
-## Test Results
+### Test Results
 
 Here are the test results:
 
