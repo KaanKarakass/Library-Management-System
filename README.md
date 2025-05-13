@@ -41,4 +41,4 @@ The Library Management System is a web application developed with Spring Boot 3,
 - **PostgreSQL**: Database used for storing application data.
 - **JWT**: For user authentication and authorization.
 - **Swagger/OpenAPI**: For API documentation.
-- **Docker** : For containerization if used in the project.
+- **Docker** : For containerization.
