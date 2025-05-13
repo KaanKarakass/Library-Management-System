@@ -152,3 +152,15 @@ For detailed screenshots of the live application, please refer to the following 
 
 [Live Application Screenshots](./Live-Application-Screenshots-Kaan-Karakas.pdf)
 
+## Test Coverage Report
+
+The test coverage report can be accessed at the following link:
+
+- [JoCoCo Test Coverage Report](./JoCoCo-report/index.html)
+- [JoCoCo Test Coverage Report Png](./JoCoCo-report/index.png)
+
+## Test Results
+
+Here are the test results:
+
+![Test Results](./JoCoCo-report/Test-Result.png)
