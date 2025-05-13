@@ -131,3 +131,10 @@ The application can also be run in a Docker container using Docker Compose. The 
 
    - **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
    - **Swagger JSON**: [swagger.json](swagger-doc/swagger.json)
+   
+## Database Schema
+
+Here is the database schema for the Library Management System:
+
+![Database Schema](Database-Diagram.png)
+
