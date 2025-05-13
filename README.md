@@ -145,3 +145,10 @@ The Postman collection for all API endpoints used in the project is provided bel
 - **Postman Collection File:** [Library Management API.postman_collection.json](./Library%20Management%20API.postman_collection.json)
 
 After downloading the Postman collection, you can import it into the Postman app to test the API endpoints.
+
+## Project Screenshots
+
+For detailed screenshots of the live application, please refer to the following PDF document:
+
+[Live Application Screenshots](./Live-Application-Screenshots-Kaan-Karakas.pdf)
+
