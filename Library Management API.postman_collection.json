@@ -1,0 +1,731 @@
+{
+	"info": {
+		"_postman_id": "cd18e712-d258-4dc8-aa53-404907b2fa09",
+		"name": "Library Management API",
+		"description": "Authentication, Book Management, Borrow History, and User APIs for Library Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26353146"
+	},
+	"item": [
+		{
+			"name": "Auth - Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"new_user3\",\r\n    \"password\": \"password\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjMiLCJpYXQiOjE3NDcwNzc3NTAsImV4cCI6MTc0NzA4MTM1MH0.uvoKkxeg5RcwJHRsme_fgBDxqEG05eCtoZt7ilcJOAc\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Book - Add Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjIiLCJpYXQiOjE3NDcwNzU5MTcsImV4cCI6MTc0NzA3OTUxN30.pTDJ27AgwEyoYqNP8M_7D9jTsjdOQZSZ6Z1F5oGPyiI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Book Title\",\r\n    \"author\": \"Author Name\",\r\n    \"isbn\": \"123123\",\r\n    \"publicationDate\": \"2023-12-12\",\r\n    \"genre\": \"CLASSIC\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/books/add",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"add"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Book Created",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "201 Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 10,\r\n    \"title\": \"Book Title\",\r\n    \"author\": \"Author Name\",\r\n    \"isbn\": \"123123\",\r\n    \"publicationDate\": \"2023-12-12\",\r\n    \"genre\": \"CLASSIC\",\r\n    \"bookStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Book - Get Book by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjIiLCJpYXQiOjE3NDcwNzU5MTcsImV4cCI6MTc0NzA3OTUxN30.pTDJ27AgwEyoYqNP8M_7D9jTsjdOQZSZ6Z1F5oGPyiI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/books/{{bookId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"{{bookId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Book",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 10,\r\n    \"title\": \"Book Title\",\r\n    \"author\": \"Author Name\",\r\n    \"isbn\": \"123123\",\r\n    \"publicationDate\": \"2023-12-12\",\r\n    \"genre\": \"CLASSIC\",\r\n    \"bookStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Book - Search Books",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjIiLCJpYXQiOjE3NDcwNzU5MTcsImV4cCI6MTc0NzA3OTUxN30.pTDJ27AgwEyoYqNP8M_7D9jTsjdOQZSZ6Z1F5oGPyiI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Book Title\",\r\n    \"author\": \"Author Name\",\r\n    \"isbn\": \"123123\",\r\n    \"genre\": \"CLASSIC\",\r\n    \"fromPublicationDate\": \"\",\r\n    \"toPublicationDate\": \"\",\r\n    \"page\": 0,\r\n    \"size\": 10\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/books/search",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Search Result",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"books\": [\r\n        {\r\n            \"id\": 10,\r\n            \"title\": \"Book Title\",\r\n            \"author\": \"Author Name\",\r\n            \"isbn\": \"123123\",\r\n            \"publicationDate\": \"2023-12-12\",\r\n            \"genre\": \"CLASSIC\",\r\n            \"bookStatus\": \"ACTIVE\"\r\n        }\r\n    ],\r\n    \"totalElements\": 1,\r\n    \"totalPages\": 1,\r\n    \"page\": 0,\r\n    \"size\": 10\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Book - Update Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjIiLCJpYXQiOjE3NDcwNzU5MTcsImV4cCI6MTc0NzA3OTUxN30.pTDJ27AgwEyoYqNP8M_7D9jTsjdOQZSZ6Z1F5oGPyiI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Updated Title\",\r\n    \"author\": \"Updated Author\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/books/update/{{bookId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"update",
+						"{{bookId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 10,\r\n    \"title\": \"Updated Title\",\r\n    \"author\": \"Updated Author\",\r\n    \"isbn\": \"123123\",\r\n    \"publicationDate\": \"2023-12-12\",\r\n    \"genre\": \"CLASSIC\",\r\n    \"bookStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Book - Delete Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjIiLCJpYXQiOjE3NDcwNzU5MTcsImV4cCI6MTc0NzA3OTUxN30.pTDJ27AgwEyoYqNP8M_7D9jTsjdOQZSZ6Z1F5oGPyiI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/books/delete/{{bookId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"delete",
+						"{{bookId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 10,\r\n    \"title\": \"Updated Title\",\r\n    \"author\": \"Updated Author\",\r\n    \"isbn\": \"123123\",\r\n    \"publicationDate\": \"2023-12-12\",\r\n    \"genre\": \"CLASSIC\",\r\n    \"bookStatus\": \"DELETED\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Borrow History - Borrow Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjUiLCJpYXQiOjE3NDcwNzg0NDAsImV4cCI6MTc0NzA4MjA0MH0.yGdbeiiY4K6NzO-ayzha0zDWX79i8rXGNzCX8hRpq-Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 3,\r\n    \"borrowDate\": \"2023-12-12\",\r\n    \"dueDate\": \"2024-02-02\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/borrow-history/borrow",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"borrow-history",
+						"borrow"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Borrow Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "201 Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 2,\r\n    \"userId\": 12,\r\n    \"bookId\": 3,\r\n    \"userName\": \"newUser\",\r\n    \"bookTitle\": \"The Great Gatsby\",\r\n    \"borrowDate\": \"2023-12-12\",\r\n    \"dueDate\": \"2024-02-02\",\r\n    \"returnDate\": null,\r\n    \"isReturned\": false\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Borrow History - Return Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjUiLCJpYXQiOjE3NDcwNzg0NDAsImV4cCI6MTc0NzA4MjA0MH0.yGdbeiiY4K6NzO-ayzha0zDWX79i8rXGNzCX8hRpq-Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/borrow-history/{{historyId}}/return",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"borrow-history",
+						"{{historyId}}",
+						"return"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 2,\r\n    \"userId\": 12,\r\n    \"bookId\": 3,\r\n    \"userName\": \"newUser\",\r\n    \"bookTitle\": \"The Great Gatsby\",\r\n    \"borrowDate\": \"2023-12-12\",\r\n    \"dueDate\": \"2024-02-02\",\r\n    \"returnDate\": \"2025-05-12\",\r\n    \"isReturned\": true\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Borrow History - Get User History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjUiLCJpYXQiOjE3NDcwNzg0NDAsImV4cCI6MTc0NzA4MjA0MH0.yGdbeiiY4K6NzO-ayzha0zDWX79i8rXGNzCX8hRpq-Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/borrow-history/user",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"borrow-history",
+						"user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User History",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "[\r\n    {\r\n        \"id\": 2,\r\n        \"userId\": 12,\r\n        \"bookId\": 3,\r\n        \"userName\": \"newUser\",\r\n        \"bookTitle\": \"The Great Gatsby\",\r\n        \"borrowDate\": \"2023-12-12\",\r\n        \"dueDate\": \"2024-02-02\",\r\n        \"returnDate\": \"2025-05-12\",\r\n        \"isReturned\": true\r\n    }\r\n]"
+				}
+			]
+		},
+		{
+			"name": "Borrow History - Get All Histories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjciLCJpYXQiOjE3NDcwNzg3ODgsImV4cCI6MTc0NzA4MjM4OH0.Xv-6x2EMKxl6uPenNDQWjwV7FvhOLOYPkJjFutU_8QU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/borrow-history",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"borrow-history"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "All Histories",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "[\r\n    {\r\n        \"id\": 1,\r\n        \"userId\": 5,\r\n        \"bookId\": 2,\r\n        \"userName\": \"Kaan Karakas\",\r\n        \"bookTitle\": \"The Great Gatsby\",\r\n        \"borrowDate\": \"2025-05-05\",\r\n        \"dueDate\": \"2025-05-15\",\r\n        \"returnDate\": \"2025-05-05\",\r\n        \"isReturned\": true\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"userId\": 12,\r\n        \"bookId\": 3,\r\n        \"userName\": \"newUser\",\r\n        \"bookTitle\": \"The Great Gatsby\",\r\n        \"borrowDate\": \"2023-12-12\",\r\n        \"dueDate\": \"2024-02-02\",\r\n        \"returnDate\": \"2025-05-12\",\r\n        \"isReturned\": true\r\n    }\r\n]"
+				}
+			]
+		},
+		{
+			"name": "Borrow History - Overdue Report",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjciLCJpYXQiOjE3NDcwNzg3ODgsImV4cCI6MTc0NzA4MjM4OH0.Xv-6x2EMKxl6uPenNDQWjwV7FvhOLOYPkJjFutU_8QU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/borrow-history/report/overdue",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"borrow-history",
+						"report",
+						"overdue"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Overdue Report",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "OVERDUE BOOKS REPORT--------------------Total Overdue Records: 0\nUsers with Overdues: 0\n\nDetails:\n\nGenerated At: 2025-05-12T22:40:36.1372871\n"
+				}
+			]
+		},
+		{
+			"name": "User - Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"newUser\",\r\n    \"username\": \"new_user3\",\r\n    \"email\": \"new@exasample.com\",\r\n    \"password\": \"password\",\r\n    \"role\": \"PATRON\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Register Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 10,\r\n    \"name\": \"newUser\",\r\n    \"username\": \"new_user3\",\r\n    \"email\": \"new@exasample.com\",\r\n    \"role\": \"PATRON\",\r\n    \"userStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "User - Get User by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjciLCJpYXQiOjE3NDcwNzg3ODgsImV4cCI6MTc0NzA4MjM4OH0.Xv-6x2EMKxl6uPenNDQWjwV7FvhOLOYPkJjFutU_8QU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/users/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get User",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"Kaan Karakas\",\r\n    \"username\": \"karakas35\",\r\n    \"email\": \"kaan.alpp@gmail.com\",\r\n    \"role\": \"PATRON\",\r\n    \"userStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "User - Update User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjciLCJpYXQiOjE3NDcwNzg3ODgsImV4cCI6MTc0NzA4MjM4OH0.Xv-6x2EMKxl6uPenNDQWjwV7FvhOLOYPkJjFutU_8QU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"updated_user\",\r\n    \"email\": \"updated@example.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/update/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"update",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update User Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"Kaan Karakas\",\r\n    \"username\": \"updated_user\",\r\n    \"email\": \"updated@example.com\",\r\n    \"role\": \"PATRON\",\r\n    \"userStatus\": \"ACTIVE\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "User - Delete User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXdfdXNlcjciLCJpYXQiOjE3NDcwNzg3ODgsImV4cCI6MTc0NzA4MjM4OH0.Xv-6x2EMKxl6uPenNDQWjwV7FvhOLOYPkJjFutU_8QU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/users/delete/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"delete",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete User Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": []
+					},
+					"status": "200 OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"Kaan Karakas\",\r\n    \"username\": \"updated_user\",\r\n    \"email\": \"updated@example.com\",\r\n    \"role\": \"PATRON\",\r\n    \"userStatus\": \"DELETED\"\r\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "bookId",
+			"value": "1"
+		},
+		{
+			"key": "historyId",
+			"value": "1"
+		},
+		{
+			"key": "userId",
+			"value": "1"
+		}
+	]
+}
