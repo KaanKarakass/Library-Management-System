@@ -1,10 +1,10 @@
 # Kaan Karakaş - Library Management System
 
-## Project Overview
+## 🚀 Project Overview
 
 The Library Management System is a web application developed with Spring Boot 3, Java 21, and PostgreSQL. It provides an efficient way for librarians to manage books, users, and the borrowing/returning process. It features user authentication with JWT and role-based authorization for restricting access to certain functionalities. The application allows librarians to manage books, view and update user information, and track borrowing history. Patrons can borrow and return books, while librarians can generate overdue reports.
 
-## Key features
+## 📌 Key features
 
 ### 1.User Management
 
@@ -34,7 +34,7 @@ The Library Management System is a web application developed with Spring Boot 3,
   
 - **Authentication**: All endpoints are secured using **JWT-based authentication**. Access is granted based on the user’s role, ensuring proper authorization.	
 
-## Technology Stack Used
+## 🛠️ Technology Stack Used
 
 - **Spring Boot 3**: Backend framework for building the application.
 - **Java 21**: Programming language for backend development.
@@ -42,3 +42,15 @@ The Library Management System is a web application developed with Spring Boot 3,
 - **JWT**: For user authentication and authorization.
 - **Swagger/OpenAPI**: For API documentation.
 - **Docker** : For containerization.
+
+## ⚡ Getting Started
+
+### Prerequisites
+
+- **Java 21 installed**
+
+- **PostgreSQL installed and running**
+
+- **Maven installed**
+
+- **Git installed**
