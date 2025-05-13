@@ -127,6 +127,7 @@ The application can also be run in a Docker container using Docker Compose. The 
 ## API Documentation
    You can access the full API documentation using Swagger UI:
 
-- **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+   The Swagger API documentation is available at:
 
-   This provides a comprehensive list of all available endpoints, request/response models, and expected status codes.
+   - **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+   - **Swagger JSON**: [swagger-doc.json](swagger-docs/swagger-doc.json)
