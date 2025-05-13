@@ -54,3 +54,33 @@ The Library Management System is a web application developed with Spring Boot 3,
 - **Maven installed**
 
 - **Git installed**
+
+### Setup Instructions
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/KaanKarakass/Library-Management-System.git
+   cd library-management-system
+   ```
+   
+2. **Configure the Database:**   
+   * Create a PostgreSQL database named library_information using schema librarymanagement.
+   * Update the application.properties file with the following configuration:
+   
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/library_information?currentSchema=librarymanagement
+   spring.datasource.username=postgres
+   spring.datasource.password=Admin12345
+   spring.datasource.driver-class-name=org.postgresql.Driver
+   server.port=8080
+   spring.jpa.hibernate.ddl-auto=update
+   spring.jpa.show-sql=true
+   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+   jwt.secret=mysecretkeymysecretkeymysecretkeymysecretkey
+   jwt.expiration=3600000
+   logging.level.org.springframework.security=DEBUG
+   logging.level.org.springframework.web=DEBUG
+   logging.level.com.kaankarakas=DEBUG
+   ```
